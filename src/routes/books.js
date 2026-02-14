@@ -37,6 +37,12 @@ const router = express.Router();
  *     responses:
  *       201:
  *         description: Book created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Book'
+ *       401:
+ *         description: Unauthorized
  */
 router.post("/", auth, validate(bookValidation.createBook), bookController.createBook);
 
@@ -51,6 +57,14 @@ router.post("/", auth, validate(bookValidation.createBook), bookController.creat
  *     responses:
  *       200:
  *         description: List of books
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Book'
+ *       401:
+ *         description: Unauthorized
  */
 router.get("/", auth, bookController.getBooks);
 
@@ -68,9 +82,18 @@ router.get("/", auth, bookController.getBooks);
  *         required: true
  *         schema:
  *           type: string
+ *         description: The book id
  *     responses:
  *       200:
  *         description: Book details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Book'
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Book not found
  */
 router.get("/:id", auth, validate(bookValidation.getBook), bookController.getBook);
 
@@ -88,9 +111,14 @@ router.get("/:id", auth, validate(bookValidation.getBook), bookController.getBoo
  *         required: true
  *         schema:
  *           type: string
+ *         description: The book id
  *     responses:
  *       204:
  *         description: No content
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Book not found
  */
 router.delete("/:id", auth, validate(bookValidation.getBook), bookController.deleteBook);
 

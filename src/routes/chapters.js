@@ -39,6 +39,7 @@ const router = express.Router();
  *                 type: string
  *               type:
  *                 type: string
+ *                 enum: [chapter, preface, introduction, epilogue, appendix, acknowledgments, dedication]
  *               order:
  *                 type: number
  *               bookId:
@@ -46,6 +47,10 @@ const router = express.Router();
  *     responses:
  *       201:
  *         description: Chapter created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Chapter'
  */
 router.post("/", auth, validate(chapterValidation.createChapter), chapterController.createChapter);
 
@@ -63,15 +68,20 @@ router.post("/", auth, validate(chapterValidation.createChapter), chapterControl
  *         required: true
  *         schema:
  *           type: string
+ *         description: The chapter id
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
+ *             $ref: '#/components/schemas/Chapter'
  *     responses:
  *       200:
  *         description: Chapter updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Chapter'
  */
 router.put("/:id", auth, validate(chapterValidation.updateChapter), chapterController.updateChapter);
 
@@ -89,6 +99,7 @@ router.put("/:id", auth, validate(chapterValidation.updateChapter), chapterContr
  *         required: true
  *         schema:
  *           type: string
+ *         description: The chapter id
  *     requestBody:
  *       required: true
  *       content:
@@ -97,9 +108,16 @@ router.put("/:id", auth, validate(chapterValidation.updateChapter), chapterContr
  *             type: object
  *             required:
  *               - content
+ *             properties:
+ *               content:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Chapter content updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Chapter'
  */
 router.put("/:id/content", auth, validate(chapterValidation.updateChapterContent), chapterController.updateChapterContent);
 
@@ -117,9 +135,16 @@ router.put("/:id/content", auth, validate(chapterValidation.updateChapterContent
  *         required: true
  *         schema:
  *           type: string
+ *         description: The book id
  *     responses:
  *       200:
  *         description: List of chapters
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Chapter'
  */
 router.get("/book/:bookId", auth, validate(chapterValidation.getChaptersByBook), chapterController.getChaptersByBook);
 
@@ -137,6 +162,7 @@ router.get("/book/:bookId", auth, validate(chapterValidation.getChaptersByBook),
  *         required: true
  *         schema:
  *           type: string
+ *         description: The chapter id
  *     responses:
  *       204:
  *         description: No content

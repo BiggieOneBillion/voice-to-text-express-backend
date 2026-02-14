@@ -6,7 +6,7 @@ const options = {
     info: {
       title: 'Voice Text Backend API',
       version: '1.0.0',
-      description: 'Backend API with authentication using Express.js and MongoDB',
+      description: 'Professional API documentation for the Voice Text Backend, providing endpoints for audio transcription, user authentication, and content management (Books, Chapters, Notes).',
     },
     servers: [
       {
@@ -24,7 +24,7 @@ const options = {
       },
     },
   },
-  apis: ['./src/routes/*.js'], // Path to the API routes
+  apis: ['./src/routes/*.js', './src/models/*.js'], // Path to the API routes and models
 };
 
 module.exports = swaggerJsdoc(options);

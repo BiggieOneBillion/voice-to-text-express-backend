@@ -37,6 +37,10 @@ const router = express.Router();
  *     responses:
  *       201:
  *         description: Note created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Note'
  */
 router.post("/", auth, validate(noteValidation.createNote), noteController.createNote);
 
@@ -51,6 +55,12 @@ router.post("/", auth, validate(noteValidation.createNote), noteController.creat
  *     responses:
  *       200:
  *         description: List of notes
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Note'
  */
 router.get("/", auth, noteController.getNotes);
 
@@ -68,9 +78,16 @@ router.get("/", auth, noteController.getNotes);
  *         required: true
  *         schema:
  *           type: string
+ *         description: The note id
  *     responses:
  *       200:
  *         description: Note details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Note'
+ *       404:
+ *         description: Note not found
  */
 router.get("/:id", auth, validate(noteValidation.getNote), noteController.getNote);
 
@@ -88,15 +105,23 @@ router.get("/:id", auth, validate(noteValidation.getNote), noteController.getNot
  *         required: true
  *         schema:
  *           type: string
+ *         description: The note id
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               content:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Note updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Note'
  */
 router.patch("/:id", auth, validate(noteValidation.appendToNote), noteController.appendToNote);
 
@@ -114,15 +139,25 @@ router.patch("/:id", auth, validate(noteValidation.appendToNote), noteController
  *         required: true
  *         schema:
  *           type: string
+ *         description: The note id
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               content:
+ *                 type: string
  *     responses:
  *       200:
  *         description: Note updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Note'
  */
 router.put("/:id", auth, validate(noteValidation.updateNote), noteController.updateNote);
 
@@ -140,6 +175,7 @@ router.put("/:id", auth, validate(noteValidation.updateNote), noteController.upd
  *         required: true
  *         schema:
  *           type: string
+ *         description: The note id
  *     responses:
  *       204:
  *         description: No content
